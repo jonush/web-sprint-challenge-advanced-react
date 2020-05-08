@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import PlantList from "./components/PlantList";
 import ShoppingCart from "./components/ShoppingCart";
 import CheckoutForm from "./components/CheckoutForm";
+import { useDarkMode } from './hooks/useDarkMode';
 
 import "./App.css";
 
@@ -21,11 +22,18 @@ function App() {
     setCart(cart.filter((p) => p.id !== plant.id));
   };
 
+  // Dark Mode
+  const [darkMode, setDarkMode] = useDarkMode(false);
+  const toggleMode = e => {
+    e.preventDefault();
+    setDarkMode(!darkMode);
+  };
+
   return (
     <div>
       <Router>
         <nav className="container">
-          <h1>
+          <h1 className='title'>
             React Plants <span role="img">🌿</span>
           </h1>
           <ul className="steps">
@@ -43,6 +51,13 @@ function App() {
               </NavLink>
             </li>
           </ul>
+
+          <div className="dark-mode__toggle">
+            <div
+              onClick={toggleMode}
+              className={darkMode ? 'toggle toggled' : 'toggle'}
+            />
+          </div>
         </nav>
         <Route
           exact
